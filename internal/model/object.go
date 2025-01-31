@@ -1,13 +1,12 @@
 package model
 
 import (
-	"github.com/alist-org/alist/v3/pkg/utils"
-	"sync/atomic"
 	"time"
+
+	"github.com/alist-org/alist/v3/pkg/utils"
 )
 
 type ObjWrapName struct {
-	name atomic.Pointer[string]
 	Name string
 	Obj
 }
@@ -17,14 +16,7 @@ func (o *ObjWrapName) Unwrap() Obj {
 }
 
 func (o *ObjWrapName) GetName() string {
-	if o.Name != "" {
-		return o.Name
-	}
-	if o.name.Load() == nil {
-		name := utils.MappingName(o.Obj.GetName())
-		o.name.Store(&name)
-	}
-	return *o.name.Load()
+	return o.Name
 }
 
 type Object struct {
